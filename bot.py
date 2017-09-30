@@ -13,7 +13,7 @@ bot = telepot.aio.Bot(key['telegram'])
 
 async def on_command(msg):
     content_type, chat_type, chat_id, msg_date, msg_id = telepot.glance(msg, long=True)
-#    print(msg['text'])
+    #print(msg)
     try:
         if 'Build version:' in msg['text']:
             paste = {'c': msg['text']}
@@ -23,7 +23,11 @@ async def on_command(msg):
                     if resp.status == 200:
                         messageid = telepot.message_identifier(msg)
                         pastedlog = await resp.text()
-                        await bot.sendMessage(chat_id, pastedlog, reply_to_message_id=msg_id)
+                        try:
+                            fname = msg['from']['first_name'] + ' ' + msg['from']['last_name']
+                        except KeyError:
+                            fname = msg['from']['first_name']
+                        await bot.sendMessage(chat_id, '[' + fname + '](tg://user?id=' + str(msg['from']['id']) + '):\n\n' + pastedlog, reply_to_message_id=msg_id, parse_mode='markdown')
                         try:
                             await bot.deleteMessage(messageid)
                         except telepot.exception.TelegramError:

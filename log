@@ -1,0 +1,23 @@
+Task exception was never retrieved
+future: <Task finished coro=<Router.route() done, defined at /home/josh/telegram-logbinbot/env/lib/python3.5/site-packages/telepot/aio/helper.py:213> exception=NameError("name 'fnane' is not defined",)>
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/asyncio/tasks.py", line 240, in _step
+    result = coro.send(None)
+  File "/home/josh/telegram-logbinbot/env/lib/python3.5/site-packages/telepot/aio/helper.py", line 244, in route
+    return await _invoke(fn, msg, *args, **kwargs)
+  File "/home/josh/telegram-logbinbot/env/lib/python3.5/site-packages/telepot/aio/helper.py", line 16, in _invoke
+    return await fn(*args, **kwargs)
+  File "./bot.py", line 30, in on_command
+    await bot.sendMessage(chat_id, '[' + fnane + '](tg://user?id=' + str(msg['from']['id']) + ')\n\n' + pastedlog, reply_to_message_id=msg_id, parse_mode='markdown')
+NameError: name 'fnane' is not defined
+Started...
+Traceback (most recent call last):
+  File "./bot.py", line 41, in <module>
+    loop.run_forever()
+  File "/usr/lib/python3.5/asyncio/base_events.py", line 421, in run_forever
+    self._run_once()
+  File "/usr/lib/python3.5/asyncio/base_events.py", line 1389, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/usr/lib/python3.5/selectors.py", line 445, in select
+    fd_event_list = self._epoll.poll(timeout, max_ev)
+KeyboardInterrupt
