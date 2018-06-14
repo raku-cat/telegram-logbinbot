@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import requests
+import regex
 import asyncio, aiohttp
 from telepot.aio.loop import MessageLoop
 
@@ -15,7 +16,7 @@ async def on_command(msg):
     content_type, chat_type, chat_id, msg_date, msg_id = telepot.glance(msg, long=True)
     #print(msg)
     try:
-        if 'Build version:' in msg['text']:
+        if regex.match(r'(^».\[.*\..*\..*\]\:.*)', msg['text']) is not None and len(msg['text'].split('\n')) > 5 or msg['text'].startswith('Build version:'):
             paste = {'c': msg['text']}
             await bot.sendChatAction(chat_id, 'typing')
             async with aiohttp.ClientSession() as session:
@@ -27,7 +28,7 @@ async def on_command(msg):
                             fname = msg['from']['first_name'] + ' ' + msg['from']['last_name']
                         except KeyError:
                             fname = msg['from']['first_name']
-                        await bot.sendMessage(chat_id, '[' + fname + '](tg://user?id=' + str(msg['from']['id']) + '):\n\n' + pastedlog, reply_to_message_id=msg_id, parse_mode='markdown')
+                        await bot.sendMessage(chat_id, '[' + fname + '](tg://user?id=' + str(msg['from']['id']) + '):\n' + pastedlog, reply_to_message_id=msg_id, parse_mode='markdown')
                         try:
                             await bot.deleteMessage(messageid)
                         except telepot.exception.TelegramError:
